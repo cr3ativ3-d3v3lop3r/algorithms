@@ -23,8 +23,69 @@ object LinearSearch extends App with CommonSearch with MetricsUtility {
       println("\n*********** Binary Search ***********")
       println(s"\nThe collection is ${sortedList.size} elements large => \n")
 
-      isRunning = false
+      /**
+        *  Prompt the user to choose a linear search
+        *  algorithm.
+        */
+      println("\nChoose linear search algorithm function (1/2) :" +
+        "\n1: iterative" +
+        "\n2: recursive")
+
+      /**
+        *  Read user response with exception handling.
+        */
+      val searchFunction = try {
+        scala.io.StdIn.readLine()
+      } catch {
+        case t: Throwable => println("Unexpected input type, defaulting to 1..."); "1"
+      }
+
+      /**
+        *  Prompt the user to enter a target to search
+        *  for in the collection.
+        */
+      print("\nEnter a target value (99 to terminate program): ")
+
+      /**
+        *  Read the users response with exception handling.
+        */
+      val target = try {
+        scala.io.StdIn.readDouble()
+      } catch {
+        case t: Throwable => println("Unexpected input type, defaulting to zero..."); 0.0
+      }
+
+      /**
+        *  Pattern match the users search function response and
+        *  decide which linear search function to call on
+        *  the collection.
+        */
+      searchFunction match {
+        case "1" => {
+          val beforeIterativeLinearSearchStartTime: Long = System.currentTimeMillis()
+
+          println(s"The target is position ${iterativeLinearSearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
+
+          printComputationPerformanceInMillis(beforeIterativeLinearSearchStartTime)
+        }
+      }
+
+      /** If the user has responded with 99, terminate the application. */
+      if(target == 99) {
+        isRunning = false
+      }
     }
 
+  }
+
+  def iterativeLinearSearch(target: Double,
+                            list: List[Double]): Option[Int] = {
+
+    for (i <- 0 to list.size) {
+      if (list(i) == target)
+        Some(i)
+    }
+
+    None
   }
 }
