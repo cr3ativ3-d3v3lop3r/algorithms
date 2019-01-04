@@ -1,43 +1,94 @@
 package search
 
+import utils.MetricsUtility
+
 import scala.annotation.tailrec
 
-object BinarySearch extends App {
+object BinarySearch extends App with MetricsUtility {
 
   override def main(args: Array[String]): Unit = {
 
+    /*
+     *  Create a program running flag and populate
+     *  a large sorted list with random values between
+     *  0 to 98.
+     */
     var isRunning: Boolean = true
-    val sortedList: List[Double] = List(0.0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
+    val sortedList: List[Double] = List.fill(1000000)(math.random() * 98).sortWith(_ < _)
 
+    /*  Print the app title and collection metrics */
+    println("\n*********** Binary Search ***********")
+    println(s"\nThe collection is ${sortedList.size} elements large => \n")
+    sortedList.foreach(println(_))
+
+    /*
+     *  While the app is running, execute user prompts.
+     */
     while(isRunning) {
 
+      /*
+       *  Display title and collection metrics to user
+       *  inside of running loop.
+       */
       println("\n*********** Binary Search ***********")
-      println("\nThe collection => [0.0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]")
+      println(s"\nThe collection is ${sortedList.size} elements large => \n")
 
+      /*
+       *  Prompt the user to choose a binary search
+       *  algorithm.
+       */
       println("\nChoose binary search algorithm function (1/2) :" +
         "\n1: iterative" +
         "\n2: recursive")
 
+      /*
+       *  Read user response with exception handling.
+       */
       val searchFunction = try {
         scala.io.StdIn.readLine()
       } catch {
         case t: Throwable => println("Unexpected input type, defaulting to 1..."); "1"
       }
 
+      /*
+       *  Prompt the user to enter a target to search
+       *  for in the collection.
+       */
       print("\nEnter a target value (99 to terminate program): ")
 
+      /*
+       *  Read the users response with exception handling.
+       */
       val target = try {
         scala.io.StdIn.readDouble()
       } catch {
         case t: Throwable => println("Unexpected input type, defaulting to zero..."); 0.0
       }
 
+      /*
+       *  Pattern match the users search function response and
+       *  decide which binary search function to call on
+       *  the collection.
+       */
       searchFunction match {
-        case "1" => println(s"The target is position ${iterativeBinarySearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
-        case "2" => println(s"The target is position ${recursiveBinarySearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
+        case "1" => {
+          val beforeIterativeBinarySearchStartTime: Long = System.currentTimeMillis()
+
+          println(s"The target is position ${iterativeBinarySearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
+
+          printComputationPerformanceInMillis(beforeIterativeBinarySearchStartTime)
+        }
+        case "2" => {
+          val beforeRecursiveBinarySearchStartTime: Long = System.currentTimeMillis()
+
+          println(s"The target is position ${recursiveBinarySearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
+
+          printComputationPerformanceInMillis(beforeRecursiveBinarySearchStartTime)
+        }
         case _ => println("The chosen search algorithm function has not been implemented yet...")
       }
 
+      /* If the user has responded with 99, terminate the application. */
       if(target == 99) {
         isRunning = false
       }
@@ -73,19 +124,22 @@ object BinarySearch extends App {
       /* calculate the middle of the list */
       var mid = (start + end) / 2
 
-      /*  If the value in the middle of the list is less than
+      /*
+       *  If the value in the middle of the list is less than
        *  the target, shift the start to the middle plus one space.
        */
       if(sortedList(mid) < target)
         start = mid + 1
 
-      /*  If the value in the middle of the list is greater than
+      /*
+       *  If the value in the middle of the list is greater than
        *  the target, shift the end to the middle minus one space.
        */
       else if(sortedList(mid) > target)
         end = mid - 1
 
-      /*  If the value in the middle of the list is equal to the
+      /*
+       *  If the value in the middle of the list is equal to the
        *  target, then the position of the target has been found.
        */
       else if(sortedList(mid) == target)
