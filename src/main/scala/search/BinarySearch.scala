@@ -33,8 +33,12 @@ object BinarySearch extends App {
       }
 
       searchFunction match {
-        case "1" => println(s"The target is position ${iterativeBinarySearch(target, sortedList).getOrElse("'NOT KNOWN'")} in the sorted list.")
-        case "2" => println(s"The target is position ${recursiveBinarySearch(target, sortedList).getOrElse("'NOT KNOWN'")} in the sorted list.")
+        case "1" => println(s"The target is position " +
+          s"${iterativeBinarySearch(target, sortedList).getOrElse("'NOT KNOWN'")} in the sorted list.")
+
+        case "2" => println(s"The target is position " +
+          s"${recursiveBinarySearch(target, sortedList).getOrElse("'NOT KNOWN'")} in the sorted list.")
+          
         case _ => println("The chosen search algorithm function has not been implemented yet...")
       }
 
