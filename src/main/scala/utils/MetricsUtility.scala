@@ -1,5 +1,8 @@
 package utils
 
+/**
+  * Trait to be mixed in to provide performance metrics.
+  */
 trait MetricsUtility {
 
   def printComputationPerformanceInMillis(startTime: Long): Unit = {
