@@ -1,4 +1,4 @@
-package search.linear_search
+package search
 
 object LinearSearch extends App {
 
