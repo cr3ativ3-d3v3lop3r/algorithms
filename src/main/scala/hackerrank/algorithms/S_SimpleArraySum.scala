@@ -2,14 +2,7 @@ package hackerrank.algorithms
 
 object S_SimpleArraySum extends App {
 
-  def simpleArraySum(array: List[Int]): Int = {
-
-    var sum = 0
-
-    array.foreach(e => sum = sum + e)
-
-    sum
-  }
+  def simpleArraySum(array: List[Int]): Int = array.foldLeft(0)(_ + _)
 
   override def main(args: Array[String]): Unit = {
 
