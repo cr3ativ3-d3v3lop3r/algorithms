@@ -4,7 +4,7 @@ import core.UnitSpec
 
 class Setup {
 
-  val binarySearch = BinarySearch
+  val binarySearch = BinarySearchScala
   val sortedList: List[Double] = List(0.0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
 }
 

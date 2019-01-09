@@ -2,9 +2,13 @@ package search
 
 import utils.MetricsUtility
 
-object LinearSearch extends App with CommonSearch with MetricsUtility {
+import scala.annotation.tailrec
+
+object LinearSearchScala extends App with CommonSearch with MetricsUtility {
 
   override def main(args: Array[String]): Unit = {
+
+    val sortedList: List[Double] = List.fill(10)(math.random() * 98).sortWith(_ < _)
 
     /**  Print the app title and collection metrics */
     println("\n*********** Linear Search ***********")
@@ -68,6 +72,14 @@ object LinearSearch extends App with CommonSearch with MetricsUtility {
 
           printComputationPerformanceInMillis(beforeIterativeLinearSearchStartTime)
         }
+        case "2" => {
+          val beforeRecursiveLinearSearchStartTime: Long = System.currentTimeMillis()
+
+          println(s"The target is position ${recursiveLinearSearch(target, sortedList).getOrElse("NOT KNOWN")} in the sorted list.")
+
+          printComputationPerformanceInMillis(beforeRecursiveLinearSearchStartTime)
+        }
+        case _ => println("The chosen search algorithm function has not been implemented yet...")
       }
 
       /** If the user has responded with 99, terminate the application. */
@@ -78,14 +90,34 @@ object LinearSearch extends App with CommonSearch with MetricsUtility {
 
   }
 
+  def recursiveLinearSearch(target: Double,
+                            list: List[Double]): Option[Int] = {
+
+    @tailrec
+    def recursion(list: List[Double], counter: Int): Option[Int] = {
+
+      if (list.isEmpty)
+        None
+      else if (list(counter) == target)
+        return Some(counter)
+      else recursion(list, + 1)
+    }
+
+    recursion(list, 0)
+  }
+
   def iterativeLinearSearch(target: Double,
                             list: List[Double]): Option[Int] = {
 
-    for (i <- 0 to list.size) {
+    if (list.isEmpty)
+      return None
+
+    for (i <- 0 to list.size - 1) {
+
       if (list(i) == target)
-        Some(i)
+        return Some(i)
     }
 
-    None
+    return None
   }
 }
