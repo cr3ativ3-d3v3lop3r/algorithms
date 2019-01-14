@@ -1,6 +1,6 @@
 package search
 
-import utils.MetricsUtility
+import utils.{Common, MetricsUtility}
 
 import scala.annotation.tailrec
 
@@ -17,7 +17,7 @@ import scala.annotation.tailrec
   * the size. This makes algorithms like binary search extremely efficient
   * when dealing with large data sets..
   */
-object BinarySearchScala extends App with CommonSearch with MetricsUtility {
+object BinarySearchScala extends App with Common with MetricsUtility {
 
   override def main(args: Array[String]): Unit = {
 

@@ -1,9 +1,9 @@
-package search
+package utils
 
 /**
   * Trait to be mixed in to search implementations.
   */
-trait CommonSearch {
+trait Common {
 
   /**
     *  Create a program running flag and populate

@@ -1,10 +1,10 @@
 package search
 
-import utils.MetricsUtility
+import utils.{Common, MetricsUtility}
 
 import scala.annotation.tailrec
 
-object LinearSearchScala extends App with CommonSearch with MetricsUtility {
+object LinearSearchScala extends App with Common with MetricsUtility {
 
   override def main(args: Array[String]): Unit = {
 
