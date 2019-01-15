@@ -4,13 +4,26 @@ object Monad extends App {
 
   override def main(args: Array[String]): Unit = {
 
-    val someValue = CustomSome("hello")
+    val someString = Some("hello")
+    val someString2 = Some("world")
 
-    val chained = for {
-      a <- someValue
-    } yield a
+    val concatenatedMonads = for {
+      s <- someString
+      s2 <- someString2
+    } yield s + ", " + s2
 
-    println(s"The chained value is ${chained.map(_.toUpperCase)}")
+    val concatenatedMonadsWithFMap = someString.flatMap { s =>
+      someString2.map { s2 =>
+        s + ", " + s2
+      }
+    }
+
+    val intList = Some(List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+
+    intList.map { x => println(x) }
+
+    println(s"My concatenated monads are $concatenatedMonads")
+    println(s"My concatenated monads with flatMap and map are $concatenatedMonadsWithFMap")
   }
 }
 
@@ -21,9 +34,11 @@ trait Monad[A] {
   def flatMap[B](f: (A) => Monad[B]): Monad[B]
 }
 
-case class CustomSome[A](value: A) extends Monad[A] {
+case class Some[A](value: A) extends Monad[A] {
 
-  override def map[B](f: (A) => B): Monad[B] = CustomSome(f(value))
+  override def map[B](f: (A) => B): Monad[B] = Some(f(value))
 
   override def flatMap[B](f: (A) => Monad[B]): Monad[B] = f(value)
+
+  override def toString: String = value.toString
 }
