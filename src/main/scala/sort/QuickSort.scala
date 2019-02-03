@@ -1,22 +1,25 @@
 package sort
 
 // Best case O(n log n)
-// Wort case O(n2
+// Wort case O(n2)
 // Average case O(n log n)
 object QuickSort extends App {
 
   override def main(args: Array[String]): Unit = {
 
     val r = scala.util.Random
-    val randomArray = (for (i <- 1 to 100) yield r.nextInt(10000)).toArray
+    val randomList = (for (i <- 1 to 10) yield r.nextInt(10000)).toList
 
     println("=== BEFORE SORT ===")
     printRam
     Thread.sleep(500)
 
-    val sortedArray = sort(randomArray.toList)
+    println("\n=== PRINT UN-SORTED ARRAY ===")
+    println(randomList)
 
-    println("=== AFTER SORT ===")
+    val sortedArray = quickSort(randomList)
+
+    println("\n=== AFTER SORT ===")
     Thread.sleep(500)
     printRam
 
@@ -26,32 +29,21 @@ object QuickSort extends App {
     printRam
 
 
-    println("=== PRINT SORTED ARRAY ===")
-    sortedArray.map(println(_))
+    println("\n=== PRINT SORTED ARRAY ===")
+    println(sortedArray)
 
   }
 
-  def quickSort(array: Array[Int]): Array[Int] = {
-    if (array.length < 2) array
-    else {
-      val pivot = array(array.length / 2)
+  def quickSort(list: List[Int]): List[Int] = list match {
+      case li if li.size < 2 => li
+      case li => {
+        val pivot: Int = li.head
 
-      quickSort(array filter (pivot >)) ++ (array filter (pivot ==)) ++
-        quickSort(array filter (pivot <))
+        val (left, right) = li.partition(_ < pivot)
+
+        quickSort(left) ::: pivot :: quickSort(right.tail)
+      }
     }
-  }
-
-  def sort(li: List[Int]): List[Int] = {
-
-    if (li.size < 2) li
-    else {
-      val pivot = li.head
-
-      val (left, right) = li.partition(_ < pivot)
-
-      sort(left) ::: pivot :: sort(right.tail)
-    }
-  }
 
   /**
     * freeMemory  - the amount of free memory in the JVM (an approximation to the total amount of memory currently available for future allocated objects, measured in bytes)
@@ -60,7 +52,7 @@ object QuickSort extends App {
     */
   def printRam {
     println("")
-    val mb = 1024*1024
+    val mb = 1024 * 1024
     val runtime = Runtime.getRuntime
     println("** Used Memory:  " + (runtime.totalMemory - runtime.freeMemory) / mb + " MB")
     println("** Free Memory:  " + runtime.freeMemory / mb + " MB")

@@ -89,7 +89,7 @@ object Recursion extends App {
   }
 
   // (10) Fibonacci basic recursion
-  def fibonacci(first: Int, second: Int): Unit = {
+  def fibonacci(first: Int = 1, second: Int = 2, size: Int): Unit = {
 
     if (first == 1)
       println(first)
@@ -101,9 +101,9 @@ object Recursion extends App {
 
     println(next)
 
-    if (next > 1000000)
+    if (next > size)
       System.exit(0)
-    else fibonacci(second, next)
+    else fibonacci(second, next, size)
   }
 
   // (11) Fibonacci tail recursive rosettacode.org/wiki/Fibonacci_sequence#Scala
@@ -151,22 +151,22 @@ object Recursion extends App {
 
     println(s"The list is $list")
 
-    println(s"The basic recursive sum is ${sum(list)}")
-    println(s"The tail recursive sum is ${sum2(list)}")
-    println(s"The sum with if/else is ${sum3(list)}")
-    println(s"The sum with reduceLeft is ${sumWithReduce(list)}")
+    //println(s"The basic recursive sum is ${sum(list)}")
+    //println(s"The tail recursive sum is ${sum2(list)}")
+    //println(s"The sum with if/else is ${sum3(list)}")
+    //println(s"The sum with reduceLeft is ${sumWithReduce(list)}")
 
-    println(s"The basic recursive product is ${product(list)}")
+    //println(s"The basic recursive product is ${product(list)}")
     println(s"The tail recursive product is ${product2(list)}")
-    println(s"The product with reduce left is ${productWithReduce(list)}")
+    //println(s"The product with reduce left is ${productWithReduce(list)}")
 
-    println(s"The max with match is ${maxWithMatch(list)}")
-    println(s"The max with if/else is ${maxWithIfElse(list)}")
+    //println(s"The max with match is ${maxWithMatch(list)}")
+    //println(s"The max with if/else is ${maxWithIfElse(list)}")
 
-    println(s"The basic fibonacci is ${fibonacci(1, 2)}")
-    println(s"The tail recursive fibonacci is ${fibonacciTailRec(10)}")
+    //println(s"The basic fibonacci is ${fibonacci(size = 1000)}")
+    //println(s"The tail recursive fibonacci is ${fibonacciTailRec(10)}")
 
-    println(s"Basic factorial is ${factorial(4)}")
-    println(s"The tail recursive factorial is ${tailRecursiveFactorial(4)}")
+    //println(s"Basic factorial is ${factorial(4)}")
+    //println(s"The tail recursive factorial is ${tailRecursiveFactorial(4)}")
   }
 }
